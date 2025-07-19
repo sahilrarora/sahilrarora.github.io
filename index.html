@@ -215,7 +215,7 @@
     <div id="gameOver" class="game-over">
         <h2>Game Over!</h2>
         <p>Final Score: <span id="finalScore">0</span></p>
-        <button class="btn" onclick="resetGame()">Play Again</button>
+        <button class="btn" onclick="resetGame(true)">Play Again</button>
     </div>
 
     <script>
@@ -491,7 +491,7 @@
             }
         }
 
-        function resetGame() {
+        function resetGame(startImmediately = false) {
             clearInterval(gameLoop);
             gameLoop = null;
             gameRunning = false;
@@ -508,7 +508,15 @@
             
             generateFood();
             drawGame();
-            updateGameStatus("Ready to play! Click Start Game and then use WASD or Arrow Keys");
+            
+            if (startImmediately) {
+                // Go directly to waiting for input state
+                gameRunning = true;
+                waitingForInput = true;
+                updateGameStatus("Press WASD or Arrow Keys to start moving!", "waiting");
+            } else {
+                updateGameStatus("Ready to play! Click Start Game and then use WASD or Arrow Keys");
+            }
         }
 
         function gameOver() {
